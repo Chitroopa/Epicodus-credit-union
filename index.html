@@ -16,33 +16,33 @@
             <h2>Register a New Account:</h2>
             <div class="form-group">
               <label for="new-account-name">Name</label>
-              <input type="text" class="form-control" id="account-name">
+              <input type="name" class="form-control" id="account-name">
             </div>
             <div class="form-group">
               <label for="init-deposit">Initial Deposit: $</label>
-              <input type="text" class="form-control" id="init-deposit">
+              <input type="number" class="form-control" id="init-deposit" required>
             </div>
           </div>
           <div class="col-md-6">
             <h2>Deposit or Withdraw Funds:</h2>
             <div class="form-group">
               <label for="deposit">Deposit Amount: $</label>
-              <input type="text" class="form-control" id="account-deposit">
+              <input type="number" class="form-control" id="account-deposit">
             </div>
             <div class="form-group">
               <label for="withdraw">Withdraw Amount: $</label>
-              <input type="text" class="form-control" id="account-withdraw">
+              <input type="number" class="form-control" id="account-withdraw">
             </div>
 
           </div>
         </div>
-        <button type="submit" class="btn">Check Balance</button>
+        <button type="submit" class="btn bg-primary">Check Balance</button>
       </form>
       <br>
       <div class="row">
         <div class="jumbotron" id="balance">
           <h2><span class="name"></span>, Your Balance is<h2>
-          <h1>$<span class="balance"></span></h1>
+          <h1>$ <span class="balance"></span></h1>
         </div>
       </div>
     </div>

@@ -26,18 +26,6 @@ var reset = function() {
   $("#account-deposit").val("");
   $("#account-withdraw").val("");
 }
-var check = function(str) {
-  var result;
-  var regexp = /^[0-9]+([,.][0-9]+)?$/g;
-  if(result = regexp.test(str))
-  {
-    return false;
-  }
-  else
-  {
-    return true;
-  }
-}
 
 // user interface logic
 $(document).ready(function() {
@@ -50,7 +38,7 @@ $(document).ready(function() {
 
   if(!initDepositInput)
   {
-    initDepositInput = 0;
+      initDepositInput = 0;
   }
   if(!depositInput)
   {
@@ -61,22 +49,16 @@ $(document).ready(function() {
     withdrawInput = 0;
   }
 
-  if(!check(initDepositInput) || !check(depositInput) || !check(withdrawInput))
-  {
-    var newBankAccount = new BankAccount(nameInput, initDepositInput, depositInput, withdrawInput);
+  var newBankAccount = new BankAccount(nameInput, initDepositInput, depositInput, withdrawInput);
 
-      newBankAccount.depositCalculation();
-      newBankAccount.withdrawCalculation();
+  newBankAccount.depositCalculation();
+  newBankAccount.withdrawCalculation();
 
-      reset();
+  reset();
 
-      $("#balance").show();
-      $(".name").text(newBankAccount.nameAccount);
-      $(".balance").text(newBankAccount.initDeposit);
-  }
-  else
-  {
-    alert("enter a valid number");
-  }
+  $("#balance").show();
+  $(".name").text(newBankAccount.nameAccount);
+  $(".balance").text(newBankAccount.initDeposit);
+
   });
 });
