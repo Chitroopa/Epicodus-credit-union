@@ -1,85 +1,53 @@
 //business logic
-function Contact(first, last) {
-  this.firstName = first;
-  this.lastName = last;
-  this.address = [];
+function BankAccount(name, initDeposit, deposit, withdraw) {
+  this.nameAccount = name;
+  this.initDeposit = initDeposit;
+  this.deposit = deposit;
+  this.withdraw = withdraw;
+}
+BankAccount.prototype.depositCalculation = function() {
+  return this.initDeposit += this.deposit;
 }
 
-function Address(street, city, state)  {
-  this.street = street;
-  this.city = city;
-  this.state = state;
+BankAccount.prototype.withdrawCalculation = function() {
+
+  if (this.withdraw > this.initDeposit) {
+    alert("You have no money!");
+  } else {
+      return this.initDeposit -= this.withdraw;
+  }
 }
 
-Contact.prototype.fullName = function() {
-  return this.firstName + " " + this.lastName;
-}
 
-Address.prototype.fullAddress = function() {
-  return this.street + ", " + this.city + ", " + this.state;
-}
 
 
 // user interface logic
 $(document).ready(function() {
-
-  $("#add-address").click(function() {
-     $("#new-addresses").append('<div class="new-address">' +
-                                  '<div class="form-group">' +
-                                    '<label for="new-street">Street</label>' +
-                                    '<input type="text" class="form-control new-street">' +
-                                  '</div>' +
-                                  '<div class="form-group">' +
-                                    '<label for="new-city">City</label>' +
-                                    '<input type="text" class="form-control new-city">' +
-                                  '</div>' +
-                                  '<div class="form-group">' +
-                                    '<label for="new-state">State</label>' +
-                                    '<input type="text" class="form-control new-state">' +
-                                  '</div>' +
-                                '</div>');
-   });
-
-  $("form#new-contact").submit(function(event) {
-    event.preventDefault();
-
-    var inputtedFirstName = $("input#new-first-name").val();
-    var inputtedLastName = $("input#new-last-name").val();
-    var newContact = new Contact(inputtedFirstName, inputtedLastName);
-
-    $(".new-address").each(function() {
-      var inputtedStreet = $(this).find("input.new-street").val();
-      var inputtedCity = $(this).find("input.new-city").val();
-      var inputtedState = $(this).find("input.new-state").val();
-      if(!inputtedStreet || !inputtedCity || !inputtedState)
-      {
-        $(this).remove(".new-address");
-      }
-      else
-      {
-        var newAddress = new Address(inputtedStreet, inputtedCity, inputtedState)
-        newContact.address.push(newAddress);
-      }
-    });
+  $("#new-account").submit(function(event) {
+  event.preventDefault();
+  var nameInput = $("#account-name").val();
+  var initDepositInput = parseInt($("#init-deposit").val());
+  var depositInput = parseInt($("#account-deposit").val());
+  var withdrawInput = parseInt($("#account-withdraw").val());
+  //console.log(nameInput, initDepositInput, depositInput, withdrawInput);
+  if(!initDepositInput)
+  {
+    initDepositInput = 0;
+  }
+  if(!depositInput)
+  {
+    depositInput = 0;
+  }
+  if(!withdrawInput)
+  {
+    withdrawInput = 0;
+  }
+  var newBankAccount = new BankAccount(nameInput, initDepositInput, depositInput, withdrawInput);
+    console.log(newBankAccount.depositCalculation());
+    console.log(newBankAccount.withdrawCalculation());
+    $("#balance").show();
+    $(".balance").text(newBankAccount.initDeposit);
 
 
-    $("ul#contacts").append("<li><span class='contact'>" + newContact.fullName() + "</span></li>");
-
-    $(".contact").last().click(function() {
-      $("#show-contact").show();
-      $("#show-contact h2").text(newContact.firstName);
-      $(".first-name").text(newContact.firstName);
-      $(".last-name").text(newContact.lastName);
-      $("ul#addresses").text("");
-        newContact.address.forEach(function(address) {
-          $("ul#addresses").append("<li>" + address.fullAddress() + "</li>");
-        });
-      });
-
-    $("input#new-first-name").val("");
-    $("input#new-last-name").val("");
-    $("input.new-street").val("");
-    $("input.new-city").val("");
-    $("input.new-state").val("");
   });
 });
