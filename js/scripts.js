@@ -11,25 +11,43 @@ BankAccount.prototype.depositCalculation = function() {
 
 BankAccount.prototype.withdrawCalculation = function() {
 
-  if (this.withdraw > this.initDeposit) {
-    alert("You have no money!");
-  } else {
+  if (this.withdraw > this.initDeposit)
+  {
+    alert("You don't have enough money to withdraw!");
+  }
+  else
+  {
       return this.initDeposit -= this.withdraw;
   }
 }
-
-
-
+var reset = function() {
+  $("#account-name").val("");
+  $("#init-deposit").val("");
+  $("#account-deposit").val("");
+  $("#account-withdraw").val("");
+}
+var check = function(str) {
+  var result;
+  var regexp = /^[0-9]+([,.][0-9]+)?$/g;
+  if(result = regexp.test(str))
+  {
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+}
 
 // user interface logic
 $(document).ready(function() {
   $("#new-account").submit(function(event) {
   event.preventDefault();
   var nameInput = $("#account-name").val();
-  var initDepositInput = parseInt($("#init-deposit").val());
-  var depositInput = parseInt($("#account-deposit").val());
-  var withdrawInput = parseInt($("#account-withdraw").val());
-  //console.log(nameInput, initDepositInput, depositInput, withdrawInput);
+  var initDepositInput = parseFloat($("#init-deposit").val());
+  var depositInput = parseFloat($("#account-deposit").val());
+  var withdrawInput = parseFloat($("#account-withdraw").val());
+
   if(!initDepositInput)
   {
     initDepositInput = 0;
@@ -42,12 +60,23 @@ $(document).ready(function() {
   {
     withdrawInput = 0;
   }
-  var newBankAccount = new BankAccount(nameInput, initDepositInput, depositInput, withdrawInput);
-    console.log(newBankAccount.depositCalculation());
-    console.log(newBankAccount.withdrawCalculation());
-    $("#balance").show();
-    $(".balance").text(newBankAccount.initDeposit);
 
+  if(!check(initDepositInput) || !check(depositInput) || !check(withdrawInput))
+  {
+    var newBankAccount = new BankAccount(nameInput, initDepositInput, depositInput, withdrawInput);
 
+      newBankAccount.depositCalculation();
+      newBankAccount.withdrawCalculation();
+
+      reset();
+
+      $("#balance").show();
+      $(".name").text(newBankAccount.nameAccount);
+      $(".balance").text(newBankAccount.initDeposit);
+  }
+  else
+  {
+    alert("enter a valid number");
+  }
   });
 });
